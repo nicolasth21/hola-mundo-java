@@ -1,5 +1,9 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'maven:3.8.6-openjdk-17'
+        }
+    }
     stages {
         stage('Build') {
             steps {
@@ -9,12 +13,6 @@ pipeline {
         stage('Test') {
             steps {
                 sh 'mvn test'
-            }
-        }
-        stage('Security Scan') {
-            steps {
-                // Ejemplo: análisis con SonarQube (si está configurado en Jenkins)
-                sh 'echo "Ejecutando escaneo de seguridad con SonarQube..."'
             }
         }
         stage('Run') {
