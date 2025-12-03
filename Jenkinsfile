@@ -27,7 +27,7 @@ pipeline {
         stage('Static Analysis - SonarQube') {
             steps {
                 withSonarQubeEnv('SonarQube') {
-                    sh 'mvn sonar:sonar -Dsonar.projectKey=hola-mundo-java -Dsonar.host.url=$SONAR_HOST_URL'
+                    sh 'mvn sonar:sonar -Dsonar.projectKey=hola-mundo-java'
                 }
             }
         }
