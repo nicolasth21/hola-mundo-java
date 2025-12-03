@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        SONAR_HOST_URL = 'http://localhost:9000' // Ajusta si tu SonarQube está en otro puerto/IP
+        SONAR_HOST_URL = 'http://localhost:9000'
     }
     stages {
         stage('Build') {
@@ -18,9 +18,6 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'snyk-token-id', variable: 'SNYK_TOKEN')]) {
                     sh '''
-                        apt-get update && apt-get install -y npm
-                        npm install -g snyk
-                        export PATH=$PATH:/usr/local/bin
                         snyk auth $SNYK_TOKEN
                         snyk test || true
                     '''
@@ -37,9 +34,6 @@ pipeline {
         stage('Image Scan - Trivy') {
             steps {
                 sh '''
-                    apt-get update && apt-get install -y wget
-                    wget https://github.com/aquasecurity/trivy/releases/latest/download/trivy_0.50.1_Linux-64bit.deb
-                    dpkg -i trivy_0.50.1_Linux-64bit.deb
                     trivy fs . || true
                 '''
             }
