@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        SONAR_HOST_URL = 'http://localhost:9000' // Ajusta si usas otro puerto o IP
+        SONAR_HOST_URL = 'http://localhost:9000' // Ajusta si tu SonarQube está en otro puerto/IP
     }
     stages {
         stage('Build') {
@@ -18,10 +18,11 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'snyk-token-id', variable: 'SNYK_TOKEN')]) {
                     sh '''
-                        curl -Lo snyk https://static.snyk.io/cli/latest/snyk-linux
-                        chmod +x snyk
-                        ./snyk auth $SNYK_TOKEN
-                        ./snyk test || true
+                        apt-get update && apt-get install -y npm
+                        npm install -g snyk
+                        export PATH=$PATH:/usr/local/bin
+                        snyk auth $SNYK_TOKEN
+                        snyk test || true
                     '''
                 }
             }
