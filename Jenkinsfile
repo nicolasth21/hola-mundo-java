@@ -29,7 +29,7 @@ pipeline {
                     sh '''
                         mvn sonar:sonar \
                           -Dsonar.projectKey=hola-mundo-java \
-                          -Dsonar.host.url=http://localhost:9000 \
+                          -Dsonar.host.url=http://sonarqube:9000
                           -Dsonar.login=squ_ad3650ad13e04a6a56d94dfef38e5fccccbdb30a
                     '''
                 }
